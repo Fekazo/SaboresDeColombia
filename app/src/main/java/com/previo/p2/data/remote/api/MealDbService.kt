@@ -9,6 +9,9 @@ interface MealDbService {
     @GET("search.php")
     suspend fun searchMeals(@Query("s") query: String): MealSummaryResponseDto
 
+    @GET("search.php")
+    suspend fun getAllMeals(@Query("s") query: String = ""): MealSummaryResponseDto
+
     @GET("filter.php")
     suspend fun getMealsByArea(@Query("a") area: String): MealSummaryResponseDto
 

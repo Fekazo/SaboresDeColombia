@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.previo.p2.domain.repository.MealRepository
 import com.previo.p2.domain.util.Result
+import com.previo.p2.ui.components.SortOrder
 import com.previo.p2.ui.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -24,6 +25,9 @@ class SearchViewModel @Inject constructor(
 
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
+
+    private val _sortOrder = MutableStateFlow(SortOrder.DEFAULT)
+    val sortOrder: StateFlow<SortOrder> = _sortOrder.asStateFlow()
 
     private var searchJob: Job? = null
 
@@ -51,16 +55,19 @@ class SearchViewModel @Inject constructor(
                 }
             }
             is Result.Error -> {
-                _uiState.value = SearchUiState.Error(
-                    result.message ?: "Error en la búsqueda"
-                )
+                _uiState.value = SearchUiState.Error(result.message ?: "Error en la búsqueda")
             }
             is Result.Loading -> Unit
         }
     }
 
+    fun setSortOrder(order: SortOrder) {
+        _sortOrder.value = order
+    }
+
     fun clearQuery() {
         _query.value = ""
         _uiState.value = SearchUiState.Idle
+        _sortOrder.value = SortOrder.DEFAULT
     }
 }

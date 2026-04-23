@@ -11,6 +11,7 @@ fun FavoriteEntity.toDomain(): Favorite = Favorite(
     strMeal = strMeal,
     strMealThumb = strMealThumb,
     strArea = strArea,
+    translatedName = translatedName,
     savedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(savedAt), ZoneId.systemDefault())
 )
 
@@ -19,5 +20,6 @@ fun Favorite.toEntity(): FavoriteEntity = FavoriteEntity(
     strMeal = strMeal,
     strMealThumb = strMealThumb,
     strArea = strArea,
+    translatedName = translatedName,
     savedAt = savedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 )

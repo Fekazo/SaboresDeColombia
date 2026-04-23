@@ -1,8 +1,8 @@
 package com.previo.p2.di
 
-import com.previo.p2.BuildConfig
 import com.previo.p2.data.remote.api.EdamamService
 import com.previo.p2.data.remote.api.MealDbService
+import com.previo.p2.data.remote.api.TranslationService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -24,6 +24,10 @@ annotation class MealDbRetrofit
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class EdamamRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TranslationRetrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,7 +60,7 @@ object NetworkModule {
     @MealDbRetrofit
     fun provideMealDbRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.MEALDB_BASE_URL)
+            .baseUrl("https://www.themealdb.com/api/json/v1/1/")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
@@ -67,7 +71,7 @@ object NetworkModule {
     @EdamamRetrofit
     fun provideEdamamRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.EDAMAM_BASE_URL)
+            .baseUrl("https://api.edamam.com/api/")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
@@ -75,13 +79,27 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMealDbService(@MealDbRetrofit retrofit: Retrofit): MealDbService {
-        return retrofit.create(MealDbService::class.java)
+    @TranslationRetrofit
+    fun provideTranslationRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://translate.googleapis.com/")
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideEdamamService(@EdamamRetrofit retrofit: Retrofit): EdamamService {
-        return retrofit.create(EdamamService::class.java)
-    }
+    fun provideMealDbService(@MealDbRetrofit retrofit: Retrofit): MealDbService =
+        retrofit.create(MealDbService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideEdamamService(@EdamamRetrofit retrofit: Retrofit): EdamamService =
+        retrofit.create(EdamamService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTranslationService(@TranslationRetrofit retrofit: Retrofit): TranslationService =
+        retrofit.create(TranslationService::class.java)
 }

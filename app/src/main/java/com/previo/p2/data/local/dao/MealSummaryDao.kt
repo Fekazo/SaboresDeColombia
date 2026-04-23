@@ -26,4 +26,15 @@ interface MealSummaryDao {
 
     @Query("DELETE FROM meal_summary_cache WHERE cachedAt < :expiryTime")
     suspend fun deleteExpired(expiryTime: Long)
+
+    @Query("""
+        SELECT * FROM meal_summary_cache 
+        WHERE lower(strMeal) LIKE '%' || lower(:query) || '%'
+           OR lower(translatedName) LIKE '%' || lower(:query) || '%'
+        GROUP BY idMeal
+    """)
+    suspend fun searchByName(query: String): List<MealSummaryCacheEntity>
+
+    @Query("SELECT * FROM meal_summary_cache WHERE cacheKey = :key GROUP BY idMeal")
+    suspend fun getAllByKey(key: String): List<MealSummaryCacheEntity>
 }

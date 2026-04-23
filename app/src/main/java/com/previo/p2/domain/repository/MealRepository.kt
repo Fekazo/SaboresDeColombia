@@ -10,5 +10,7 @@ interface MealRepository {
     suspend fun searchMeals(query: String): Result<List<MealSummary>>
     suspend fun getMealsByArea(area: String): Result<List<MealSummary>>
     suspend fun getMealDetail(id: String): Result<Meal>
+    suspend fun getAllColombianMeals(): Result<List<MealSummary>>
+    suspend fun preloadAllMeals(): Result<List<MealSummary>>
     fun getPopularMealsFlow(): Flow<List<MealSummary>>
 }

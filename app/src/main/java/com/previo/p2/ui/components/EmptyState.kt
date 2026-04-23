@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun EmptyState(message: String, emoji: String = "🍽️", modifier: Modifier = Modifier) {
@@ -23,7 +24,7 @@ fun EmptyState(message: String, emoji: String = "🍽️", modifier: Modifier = 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = emoji, style = MaterialTheme.typography.titleLarge.copy(fontSize = androidx.compose.ui.unit.TextUnit.Unspecified))
+        Text(text = emoji, fontSize = 48.sp)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = message,

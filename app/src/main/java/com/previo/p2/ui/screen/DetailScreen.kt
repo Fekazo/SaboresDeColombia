@@ -58,8 +58,10 @@ fun DetailScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    val title = if (uiState is DetailUiState.Success)
-                        (uiState as DetailUiState.Success).meal.strMeal else ""
+                    val title = when (val s = uiState) {
+                        is DetailUiState.Success -> s.meal.translatedName ?: s.meal.strMeal
+                        else -> ""
+                    }
                     Text(text = title, color = Color.White, maxLines = 1)
                 },
                 navigationIcon = {
@@ -108,10 +110,13 @@ fun DetailScreen(
                     }
                     item {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = meal.strMeal, style = MaterialTheme.typography.titleLarge)
+                            Text(
+                                text = meal.translatedName ?: meal.strMeal,
+                                style = MaterialTheme.typography.titleLarge
+                            )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "Área: ${meal.strArea}",
+                                text = "Área: ${meal.translatedArea ?: meal.strArea}",
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = Color.Gray
                             )
@@ -148,7 +153,10 @@ fun DetailScreen(
                                 .padding(horizontal = 16.dp, vertical = 4.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = "• ${ingredient.name}", style = MaterialTheme.typography.bodyLarge)
+                            Text(
+                                text = "• ${ingredient.translatedName ?: ingredient.name}",
+                                style = MaterialTheme.typography.bodyLarge
+                            )
                             Text(text = ingredient.measure, color = Color.Gray)
                         }
                     }
@@ -160,7 +168,7 @@ fun DetailScreen(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                         )
                         Text(
-                            text = meal.strInstructions,
+                            text = meal.translatedInstructions ?: meal.strInstructions,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                         )

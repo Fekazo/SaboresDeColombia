@@ -7,5 +7,6 @@ data class Favorite(
     val strMeal: String,
     val strMealThumb: String,
     val strArea: String,
+    val translatedName: String? = null,
     val savedAt: LocalDateTime = LocalDateTime.now()
 )

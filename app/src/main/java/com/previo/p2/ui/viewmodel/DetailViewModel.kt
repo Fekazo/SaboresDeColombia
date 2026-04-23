@@ -33,12 +33,10 @@ class DetailViewModel @Inject constructor(
                     val meal = result.data
                     val isFavorite = favoriteRepository.isFavorite(id)
                     _uiState.value = DetailUiState.Success(meal = meal, isFavorite = isFavorite)
-                    loadNutrition(meal.strMeal)
+                    loadNutrition(meal.translatedName ?: meal.strMeal)
                 }
                 is Result.Error -> {
-                    _uiState.value = DetailUiState.Error(
-                        result.message ?: "Error al cargar detalle"
-                    )
+                    _uiState.value = DetailUiState.Error(result.message ?: "Error al cargar detalle")
                 }
                 is Result.Loading -> Unit
             }
@@ -54,10 +52,7 @@ class DetailViewModel @Inject constructor(
                 is Result.Success -> {
                     val updated = _uiState.value
                     if (updated is DetailUiState.Success) {
-                        _uiState.value = updated.copy(
-                            nutrition = result.data,
-                            nutritionLoading = false
-                        )
+                        _uiState.value = updated.copy(nutrition = result.data, nutritionLoading = false)
                     }
                 }
                 is Result.Error -> {
@@ -84,7 +79,8 @@ class DetailViewModel @Inject constructor(
                         idMeal = meal.idMeal,
                         strMeal = meal.strMeal,
                         strMealThumb = meal.strMealThumb,
-                        strArea = meal.strArea
+                        strArea = meal.strArea,
+                        translatedName = meal.translatedName
                     )
                 )
             }

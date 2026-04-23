@@ -11,7 +11,7 @@ import com.previo.p2.data.local.entity.MealSummaryCacheEntity
 
 @Database(
     entities = [MealCacheEntity::class, FavoriteEntity::class, MealSummaryCacheEntity::class],
-    version = 2,
+    version = 5,
     exportSchema = true
 )
 abstract class SaboresDatabase : RoomDatabase() {

@@ -40,7 +40,7 @@ fun RecipeCard(meal: MealSummary, onClick: () -> Unit, modifier: Modifier = Modi
                     .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
             )
             Text(
-                text = meal.strMeal,
+                text = meal.translatedName ?: meal.strMeal,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,

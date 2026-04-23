@@ -1,13 +1,16 @@
 package com.previo.p2.data.local.entity
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "meal_summary_cache")
+@Entity(
+    tableName = "meal_summary_cache",
+    primaryKeys = ["idMeal", "cacheKey"]
+)
 data class MealSummaryCacheEntity(
-    @PrimaryKey val idMeal: String,
+    val idMeal: String,
     val strMeal: String,
     val strMealThumb: String,
     val cacheKey: String,
+    val translatedName: String? = null,
     val cachedAt: Long = System.currentTimeMillis()
 )

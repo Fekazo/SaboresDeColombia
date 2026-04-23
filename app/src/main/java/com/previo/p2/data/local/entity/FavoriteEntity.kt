@@ -9,5 +9,6 @@ data class FavoriteEntity(
     val strMeal: String,
     val strMealThumb: String,
     val strArea: String,
+    val translatedName: String? = null,
     val savedAt: Long = System.currentTimeMillis()
 )

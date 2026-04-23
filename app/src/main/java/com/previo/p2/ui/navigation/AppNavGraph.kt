@@ -7,9 +7,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.previo.p2.ui.screen.AllMealsScreen
 import com.previo.p2.ui.screen.DetailScreen
 import com.previo.p2.ui.screen.FavoritesScreen
 import com.previo.p2.ui.screen.HomeScreen
+import com.previo.p2.ui.screen.PopularScreen
 import com.previo.p2.ui.screen.RegionScreen
 import com.previo.p2.ui.screen.SearchScreen
 import com.previo.p2.ui.screen.SplashScreen
@@ -30,13 +32,20 @@ fun AppNavGraph(navController: NavHostController, modifier: Modifier = Modifier)
         }
         composable(NavRoutes.Home.route) {
             HomeScreen(
-                onMealClick = { mealId ->
-                    navController.navigate(NavRoutes.Detail.createRoute(mealId))
-                },
                 onRegionClick = { area, displayName ->
                     navController.navigate(NavRoutes.Region.createRoute(area, displayName))
                 }
             )
+        }
+        composable(NavRoutes.Popular.route) {
+            PopularScreen(onMealClick = { mealId ->
+                navController.navigate(NavRoutes.Detail.createRoute(mealId))
+            })
+        }
+        composable(NavRoutes.AllMeals.route) {
+            AllMealsScreen(onMealClick = { mealId ->
+                navController.navigate(NavRoutes.Detail.createRoute(mealId))
+            })
         }
         composable(NavRoutes.Search.route) {
             SearchScreen(onMealClick = { mealId ->

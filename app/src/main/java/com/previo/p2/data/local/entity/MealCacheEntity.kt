@@ -13,5 +13,8 @@ data class MealCacheEntity(
     val ingredientsJson: String,
     val strYoutube: String?,
     val strTags: String?,
+    val translatedName: String? = null,
+    val translatedArea: String? = null,
+    val translatedInstructions: String? = null,
     val cachedAt: Long = System.currentTimeMillis()
 )

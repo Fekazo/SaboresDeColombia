@@ -3,6 +3,9 @@ package com.previo.p2.di
 import android.content.Context
 import androidx.room.Room
 import com.previo.p2.data.local.DatabaseMigrations.MIGRATION_1_2
+import com.previo.p2.data.local.DatabaseMigrations.MIGRATION_2_3
+import com.previo.p2.data.local.DatabaseMigrations.MIGRATION_3_4
+import com.previo.p2.data.local.DatabaseMigrations.MIGRATION_4_5
 import com.previo.p2.data.local.SaboresDatabase
 import com.previo.p2.data.local.dao.FavoriteDao
 import com.previo.p2.data.local.dao.MealDao
@@ -26,7 +29,7 @@ object DatabaseModule {
             SaboresDatabase::class.java,
             "sabores_db"
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
             .build()
     }
 

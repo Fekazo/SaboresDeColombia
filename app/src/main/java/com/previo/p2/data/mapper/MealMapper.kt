@@ -42,7 +42,9 @@ fun MealSummaryDto.toDomain(): MealSummary = MealSummary(
 )
 
 fun Meal.toCacheEntity(): MealCacheEntity {
-    val ingredientsJson = ingredients.joinToString("|") { "${it.name}::${it.measure}" }
+    val ingredientsJson = ingredients.joinToString("|") {
+        "${it.name}::${it.measure}::${it.translatedName.orEmpty()}"
+    }
     return MealCacheEntity(
         idMeal = idMeal,
         strMeal = strMeal,
@@ -51,7 +53,10 @@ fun Meal.toCacheEntity(): MealCacheEntity {
         strInstructions = strInstructions,
         ingredientsJson = ingredientsJson,
         strYoutube = strYoutube,
-        strTags = strTags
+        strTags = strTags,
+        translatedName = translatedName,
+        translatedArea = translatedArea,
+        translatedInstructions = translatedInstructions
     )
 }
 
@@ -60,7 +65,11 @@ fun MealCacheEntity.toDomain(): Meal {
         .filter { it.isNotBlank() }
         .map {
             val parts = it.split("::")
-            Ingredient(parts.getOrElse(0) { "" }, parts.getOrElse(1) { "" })
+            Ingredient(
+                name = parts.getOrElse(0) { "" },
+                measure = parts.getOrElse(1) { "" },
+                translatedName = parts.getOrElse(2) { "" }.ifBlank { null }
+            )
         }
     return Meal(
         idMeal = idMeal,
@@ -70,7 +79,10 @@ fun MealCacheEntity.toDomain(): Meal {
         strInstructions = strInstructions,
         ingredients = ingredients,
         strYoutube = strYoutube,
-        strTags = strTags
+        strTags = strTags,
+        translatedName = translatedName,
+        translatedArea = translatedArea,
+        translatedInstructions = translatedInstructions
     )
 }
 
@@ -78,11 +90,13 @@ fun MealSummary.toCacheEntity(cacheKey: String): MealSummaryCacheEntity = MealSu
     idMeal = idMeal,
     strMeal = strMeal,
     strMealThumb = strMealThumb,
-    cacheKey = cacheKey
+    cacheKey = cacheKey,
+    translatedName = translatedName
 )
 
 fun MealSummaryCacheEntity.toDomain(): MealSummary = MealSummary(
     idMeal = idMeal,
     strMeal = strMeal,
-    strMealThumb = strMealThumb
+    strMealThumb = strMealThumb,
+    translatedName = translatedName
 )

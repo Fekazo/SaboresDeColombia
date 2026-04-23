@@ -8,10 +8,14 @@ data class Meal(
     val strInstructions: String,
     val ingredients: List<Ingredient>,
     val strYoutube: String? = null,
-    val strTags: String? = null
+    val strTags: String? = null,
+    val translatedName: String? = null,
+    val translatedArea: String? = null,
+    val translatedInstructions: String? = null
 )
 
 data class Ingredient(
     val name: String,
-    val measure: String
+    val measure: String,
+    val translatedName: String? = null
 )
